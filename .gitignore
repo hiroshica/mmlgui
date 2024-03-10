@@ -6,3 +6,8 @@ doxygen
 *.exe
 imgui.ini
 mmlgui
+build/
+ctmml/
+imgui/
+libvgm/
+imGuiColorTextEdit/

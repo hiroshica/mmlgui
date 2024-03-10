@@ -57,6 +57,7 @@ Editor_Window::Editor_Window()
 	, save_samples(false)
 	, line_pos(0)
 	, cursor_pos(0)
+	, scale_log(1)
 {
 	type = WT_EDITOR;
 	editor.SetColorizerEnable(false); // disable syntax highlighting for now
@@ -200,7 +201,13 @@ void Editor_Window::display()
 		}
 
 		ImGui::EndMenuBar();
+
+		ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.2);
+		ImGui::InputDouble("Font Scale", &scale_log, 0.01f, 0.1f, "%.2f");
+		ImGui::PopItemWidth();
+
 	}
+
 
 	// focus on the text editor rather than the "frame"
 	if (ImGui::IsWindowFocused())

@@ -1,0 +1,37 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		// ターミナルのドロップダウンを使用して新しいターミナルを作成するときに表示する Windows プロファイル。除外する場合は null に設定し、検出された既定の構成を使用する場合は `source` プロパティを使用します。または、`path` とオプションの `args`. を設定します
+		 "terminal.integrated.profiles.windows": {
+			 "PowerShell": {
+				 "source": "PowerShell"
+			 },
+			 "Command Prompt": {
+				 "path": [
+					 "${env:windir}\\Sysnative\\cmd.exe",
+					 "${env:windir}\\System32\\cmd.exe"
+				 ],
+				 "args": []
+			 },
+			 "Git Bash": {
+				 "source": "Git Bash"
+			 },
+			 "MSYS2 Bash": {
+				 "path": [
+					 "C:\\msys64\\usr\\bin\\bash.exe"
+				 ],
+				 "args": [
+					 "--login"
+				 ],
+				 "env": {
+					 "MSYSTEM": "MINGW64",
+					 "CHERE_INVOKING": "1"
+				 }
+			 },		
+		 }
+	 }
+}

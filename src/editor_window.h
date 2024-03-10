@@ -82,6 +82,8 @@ class Editor_Window : public Window
 		// Song position
 		uint32_t line_pos;
 		uint32_t cursor_pos;
+		double scale_log;
+
 };
 
 #endif
