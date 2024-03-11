@@ -122,6 +122,10 @@ int main(int argc, char* argv[])
 		{
 			device_id = strtol(argv[++carg], NULL, 0);
 		}
+		if(!std::strcmp(argv[carg], "--fontsize") && (argc > carg))
+		{
+			BaseScale = strtod(argv[++carg], NULL);
+		}
 		carg++;
 	}
 
