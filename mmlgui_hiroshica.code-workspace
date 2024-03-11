@@ -33,12 +33,5 @@
 				 }
 			 },		
 		},
-		"cmake.buildTask": false,
-		"cmake.configureArgs": [
-			"-G \"MSYS Makefiles\" -D AUDIODRV_LIBAO=OFF -D CMAKE_INSTALL_PREFIX=/mingw64"
-		],
-		//"cmake.configureArgs": [
-		//	"-G \"MSYS Makefiles\" -D AUDIODRV_LIBAO=OFF -D CMAKE_INSTALL_PREFIX=/mingw64"
-		//],
 	},
 }

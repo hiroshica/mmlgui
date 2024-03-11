@@ -1,21 +1,24 @@
 {
-    // IntelliSense を使用して利用可能な属性を学べます。
-    // 既存の属性の説明をホバーして表示します。
-    // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceRoot}/build/mmlgui.exe",
+            "program": "${command:cmake.launchTargetPath}",
             "args": [],
-            "environment": [],
-            "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [
+                {
+                    "name": "PATH",
+                    "value": "${command:cmake.buildkit.launch.path}"
+                }
+            ],
             "externalConsole": true,
             "MIMode": "gdb",
-            "miDebuggerPath": "C:\\msys64\\mingw64\\bin\\gdb.exe",
+            "miDebuggerPath": "${command:cmake.buildkit.gdb.exe}",
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",

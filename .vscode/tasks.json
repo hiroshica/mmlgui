@@ -5,13 +5,10 @@
             "type": "cmake",
             "label": "CMake: configure",
             "command": "configure",
-            "targets": [
-                "all"
-            ],
-            "problemMatcher": [],
+            "preset": "${command:cmake.activeConfigurePresetName}",
             "detail": "CMake template configure task"
         },
-        {
+         {
             "type": "cmake",
             "label": "CMake: build",
             "command": "build",
