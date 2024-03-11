@@ -18,6 +18,7 @@ class Editor_Window : public Window
 		Editor_Window();
 
 		void display() override;
+		void update_position();
 		void close_request() override;
 		std::string dump_state() override;
 

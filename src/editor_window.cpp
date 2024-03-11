@@ -208,6 +208,7 @@ void Editor_Window::display()
 
 	}
 
+	update_position();
 
 	// focus on the text editor rather than the "frame"
 	if (ImGui::IsWindowFocused())
@@ -294,6 +295,43 @@ void Editor_Window::display()
 	{
 		handle_file_io();
 	}
+}
+//! Update position in follow mode
+void Editor_Window::update_position()
+{
+#if 0
+	y_scale = std::pow(y_scale_log, 2);
+
+	// Get player position
+	auto player =  song_manager->get_player();
+	if(player != nullptr && !player->get_finished())
+		y_player = player->get_driver()->get_player_ticks();
+	else
+		y_player = 0;
+
+	if(y_follow)
+	{
+		if(y_player)
+		{
+			// Set scroll position to player position in follow mode
+			y_pos = y_player - (canvas_size.y / 2.0) / y_scale;
+			y_scroll = 0;
+			dragging = false;
+		}
+		else if (   song_manager->get_editor_position().line >= 0
+				 && y_editor != song_manager->get_song_pos_at_cursor()
+				 && !song_manager->get_compile_in_progress())
+		{
+			// Set scroll position to editor position in follow mode
+			y_editor = song_manager->get_song_pos_at_cursor();
+			y_user = y_editor - (canvas_size.y / 2.0) / y_scale;
+			if(y_user < 0)
+				y_user = 0;
+			y_scroll = 0;
+			dragging = false;
+		}
+	}
+#endif
 }
 
 void Editor_Window::close_request()
