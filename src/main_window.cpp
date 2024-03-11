@@ -203,6 +203,33 @@ void About_Window::display()
 	ImGui::EndChild();
 	ImGui::End();
 }
+//=====================================================================
+FontSize_Overlay::FontSize_Overlay()
+{
+	type = WT_FONTSIZE_OVERLAY;
+}
+
+extern double BaseScale;
+
+void FontSize_Overlay::display()
+{
+	const float DISTANCE_X = 120.0f;
+	const float DISTANCE_Y = 10.0f;
+	static int corner = 0;
+	ImGuiIO& io = ImGui::GetIO();
+	if (corner != -1)
+	{
+		ImVec2 window_pos = ImVec2( DISTANCE_X,DISTANCE_Y);
+		ImVec2 window_pos_pivot = ImVec2(0,0);
+		ImGui::SetNextWindowPos(window_pos, ImGuiCond_Always, window_pos_pivot);
+	}
+	ImGui::SetNextWindowBgAlpha(0.35f); // Transparent background
+	if (ImGui::Begin("fontsize_overlay", &active, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav))
+	{
+		ImGui::InputDouble("Font Scale", &BaseScale, 0.01f, 0.1f, "%.2f");
+	}
+	ImGui::End();
+}
 
 //=====================================================================
 Main_Window::Main_Window()
@@ -210,7 +237,8 @@ Main_Window::Main_Window()
 	, show_config(false)
 {
 	children.push_back(std::make_shared<FPS_Overlay>());
-	children.push_back(std::make_shared<Editor_Window>());
+	children.push_back(std::make_shared<FontSize_Overlay>());
+	//children.push_back(std::make_shared<Editor_Window>());
 }
 
 void Main_Window::display()
@@ -231,7 +259,9 @@ void Main_Window::display()
 		}
 		if (ImGui::MenuItem("New MML...", nullptr, nullptr))
 		{
-			children.push_back(std::make_shared<Editor_Window>());
+			auto newwindow =std::make_shared<Editor_Window>();
+			//newwindow->resize();
+			children.push_back(newwindow);
 		}
 		if (ImGui::MenuItem("About...", nullptr, nullptr))
 		{

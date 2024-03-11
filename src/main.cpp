@@ -14,7 +14,7 @@
 #include <cstring>
 #include <ctime>
 
-#define TestFontSize (13.0f)	// * 1.25f)
+//#define TestFontSize (13.0f)	// * 1.25f)
 
 // TODO : https://www.gnu.org/software/libc/manual/html_node/Backtraces.html
 //#ifdef defined(__GLIBC__) && !defined(__UCLIBC__) && !defined(__MUSL__)
@@ -89,9 +89,12 @@ static void glfw_error_callback(int error, const char* description)
 	fprintf(stderr, "Glfw Error %d: %s\n", error, description);
 }
 
+double BaseScale = 1.0;
+
 static void restyle_with_scale(float scale)
 {
-	const float default_font_size = TestFontSize;
+	scale = scale * BaseScale;
+	const float default_font_size = 13.0f;
 
 	ImGuiStyle& current_style = ImGui::GetStyle();
 	ImGuiStyle new_style;

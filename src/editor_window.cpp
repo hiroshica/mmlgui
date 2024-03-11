@@ -48,6 +48,8 @@ enum Flags
 	SAVE_SAMPLES	= 1<<12,
 };
 
+extern double BaseScale;
+
 Editor_Window::Editor_Window()
 	: editor()
 	, filename(default_filename)
@@ -58,10 +60,27 @@ Editor_Window::Editor_Window()
 	, line_pos(0)
 	, cursor_pos(0)
 	, scale_log(1)
+	, scale_log_old(1)
 {
 	type = WT_EDITOR;
 	editor.SetColorizerEnable(false); // disable syntax highlighting for now
 	song_manager = std::make_shared<Song_Manager>();
+}
+void Editor_Window::resize()
+{
+	float scale = BaseScale;
+	const float default_font_size = 13.0f;
+
+	ImGui::EndFrame();
+	ImGuiStyle& current_style = ImGui::GetStyle();
+	ImGuiStyle new_style;
+	std::copy(current_style.Colors, current_style.Colors + ImGuiCol_COUNT, new_style.Colors);
+	new_style.ScaleAllSizes(scale);
+	current_style = new_style;
+
+	ImFontConfig font_config;
+	font_config.SizePixels = default_font_size * scale;
+	ImGui::GetIO().Fonts->AddFontDefault(&font_config);
 }
 
 void Editor_Window::display()
@@ -86,6 +105,9 @@ void Editor_Window::display()
 	auto cpos = editor.GetCursorPosition();
 	ImGui::Begin(window_id.c_str(), &keep_open, /*ImGuiWindowFlags_HorizontalScrollbar |*/ ImGuiWindowFlags_MenuBar);
 	ImGui::SetWindowSize(ImVec2(800, 600), ImGuiCond_Once);
+
+	fontResize();
+
 
 	if (ImGui::BeginMenuBar())
 	{
@@ -157,7 +179,7 @@ void Editor_Window::display()
 			if (ImGui::MenuItem("Read-only mode", nullptr, &ro))
 				editor.SetReadOnly(ro);
 
-#ifdef DEBUG
+#ifdef DBEUG
 			ImGui::Separator();
 
 			if (ImGui::MenuItem("Configuration..."))
@@ -201,14 +223,12 @@ void Editor_Window::display()
 		}
 
 		ImGui::EndMenuBar();
-
+/*
 		ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.2);
 		ImGui::InputDouble("Font Scale", &scale_log, 0.01f, 0.1f, "%.2f");
 		ImGui::PopItemWidth();
-
+*/
 	}
-
-	update_position();
 
 	// focus on the text editor rather than the "frame"
 	if (ImGui::IsWindowFocused())
@@ -297,41 +317,26 @@ void Editor_Window::display()
 	}
 }
 //! Update position in follow mode
-void Editor_Window::update_position()
+#define TestFontSize (13.0f)
+
+void Editor_Window::fontResize()
 {
-#if 0
-	y_scale = std::pow(y_scale_log, 2);
-
-	// Get player position
-	auto player =  song_manager->get_player();
-	if(player != nullptr && !player->get_finished())
-		y_player = player->get_driver()->get_player_ticks();
-	else
-		y_player = 0;
-
-	if(y_follow)
+	//if( scale_log != scale_log_old)
+	if(0)
 	{
-		if(y_player)
-		{
-			// Set scroll position to player position in follow mode
-			y_pos = y_player - (canvas_size.y / 2.0) / y_scale;
-			y_scroll = 0;
-			dragging = false;
-		}
-		else if (   song_manager->get_editor_position().line >= 0
-				 && y_editor != song_manager->get_song_pos_at_cursor()
-				 && !song_manager->get_compile_in_progress())
-		{
-			// Set scroll position to editor position in follow mode
-			y_editor = song_manager->get_song_pos_at_cursor();
-			y_user = y_editor - (canvas_size.y / 2.0) / y_scale;
-			if(y_user < 0)
-				y_user = 0;
-			y_scroll = 0;
-			dragging = false;
-		}
+		scale_log_old = scale_log;
+		const float default_font_size = TestFontSize;
+
+		ImGuiStyle& current_style = ImGui::GetStyle();
+		ImGuiStyle new_style;
+		std::copy(current_style.Colors, current_style.Colors + ImGuiCol_COUNT, new_style.Colors);
+		new_style.ScaleAllSizes(scale_log);
+		current_style = new_style;
+
+		ImFontConfig font_config;
+		font_config.SizePixels = default_font_size * scale_log;
+		ImGui::GetIO().Fonts->AddFontDefault(&font_config);
 	}
-#endif
 }
 
 void Editor_Window::close_request()

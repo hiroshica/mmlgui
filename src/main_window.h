@@ -19,6 +19,15 @@ class About_Window : public Window
 		void display() override;
 };
 
+//! Font Scale Setting overlay
+class FontSize_Overlay : public Window
+{
+	double now_scale = 1.0;
+	public:
+		FontSize_Overlay();
+		void display() override;
+};
+
 //! Main window container
 class Main_Window : public Window
 {

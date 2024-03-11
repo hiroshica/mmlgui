@@ -7,6 +7,7 @@ enum Window_Type
 	WT_FPS_OVERLAY,
 	WT_EDITOR,
 	WT_CONFIG,
+	WT_FONTSIZE_OVERLAY,
 	WT_ABOUT
 };
 

@@ -17,8 +17,10 @@ class Editor_Window : public Window
 	public:
 		Editor_Window();
 
+		void resize();
+
 		void display() override;
-		void update_position();
+		void fontResize();
 		void close_request() override;
 		std::string dump_state() override;
 
@@ -86,6 +88,7 @@ class Editor_Window : public Window
 
 		// test code
 		double scale_log;
+		double scale_log_old;
 
 };
 
